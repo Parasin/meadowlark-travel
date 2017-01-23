@@ -2,7 +2,8 @@
 const PORT       = process.env.PORT || 3000;
 let express      = require( 'express' ),
       app        = express(),
-      handlebars = require( 'express-handlebars' ).create( { defaultLayout: 'main' } );
+      handlebars = require( 'express-handlebars' ).create( { defaultLayout: 'main' } ),
+      fortune    = require( './lib/fortune' );
 
 app.engine( 'handlebars', handlebars.engine );
 
@@ -16,16 +17,7 @@ app.get( '/', ( req, res ) => {
 } );
 
 app.get( '/about', ( req, res ) => {
-    let fortunes = [
-        'Fortune 1',
-        'Fortune 2',
-        'Fortune 3',
-        'Fortune 4'
-    ];
-
-    let randomFortune = fortunes[ Math.floor( Math.random() * fortunes.length ) ];
-
-    res.render( 'about', { fortune: randomFortune } );
+    res.render( 'about', { fortune: fortune.getFortune() } );
 } );
 
 // Custom 404
